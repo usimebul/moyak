@@ -1,0 +1,7 @@
+{
+  "name": "moyak",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
