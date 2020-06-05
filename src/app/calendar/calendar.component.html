@@ -1,0 +1,33 @@
+<div class="calendar-container">
+  <div class="calendar-header">
+    <div class="calendar-header__month-picker">
+      <ion-icon name="chevron-back-sharp"></ion-icon>
+      <span class="calendar-header-year-month">{{baseDate.getFullYear()}}년 {{baseDate.getMonth() + 1}}월</span>
+    </div>
+
+    <div class="calendar-header-button-wrapper">
+      <ion-icon name="search"></ion-icon>
+      <ion-icon name="notifications"></ion-icon>
+      <ion-icon name="options"></ion-icon>
+    </div>
+  </div>
+
+  <div class="calendar-body">
+    <div class="calendar-table">
+      <div class="calendar-table-header">
+        <div class="calendar-table-header__row">
+          <div class="calendar-table-header__col" *ngFor="let day of dayOfWeek">{{day}}</div>
+        </div>
+      </div>
+
+      <div class="calendar-table-body" on-drag-left="onPress($event)" (pressup)="onPressUp($event)">
+        <div class="calendar-table-body__row" *ngFor="let calendarRow of calendar">
+          <div class="calendar-table-body__col" *ngFor="let calendarCol of calendarRow"
+            [ngClass]="{'last-month-day': calendarCol[1] == -1, 'next-month-day': calendarCol[1] == 1}"><span
+              class="day">{{calendarCol[0]}}</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

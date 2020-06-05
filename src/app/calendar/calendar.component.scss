@@ -1,0 +1,152 @@
+@mixin e($element) {
+    &__#{$element} {
+        @content;
+    }
+}
+
+@mixin m($modifier) {
+    &--#{$modifier} {
+        @content;
+    }
+}
+
+$calendar-header-bg-color: white;
+$calendar-header-color: black;
+
+.calendar-container {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+}
+
+.calendar-header {
+    box-sizing: border-box;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 15px 15px 5px 15px;
+    display: flex;
+    width: 100%;
+    background-color: $calendar-header-bg-color;
+    color: $calendar-header-color;
+
+    @include e(month-picker) {
+        display: flex;
+        align-self: center;
+        align-items: center;
+        ion-icon {
+        }
+    }
+
+    .calendar-header-button-wrapper {
+        align-self: center;
+        display: inline;
+        margin-left: auto;
+
+        ion-icon {
+            margin-left: 1em;
+            font-size: 1.2em;
+            color: var(--ion-color-secondary);
+        }
+    }
+}
+
+.calendar-body {
+    flex-grow: 1;
+    .calendar-table {
+        height: 100%;
+        .calendar-table-header {
+            background-color: $calendar-header-bg-color;
+            border-bottom: 1px solid lightgray;
+
+            @include e(row) {
+                display: flex;
+                padding: 5px 0;
+            }
+
+            @include e(col) {
+                font-size: 70%;
+                text-align: center;
+                flex: 1;
+                &:first-child {
+                    color: red;
+                }
+            }
+        }
+
+        .calendar-table-body {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            @include e(row) {
+                padding-top: 5px;
+                display: flex;
+                flex: 1;
+                border-bottom: 1px solid lightgray;
+            }
+
+            @include e(col) {
+                &:first-child {
+                    color: red;
+                }
+                font-size: 80%;
+                text-align: center;
+                min-width: 0;
+                flex: 1;
+                padding: 2px;
+
+                .sechdule-wrapper {
+                    max-height: 18vh;
+                    overflow-y: scroll;
+                }
+
+                .sechdule {
+                    font-size: 10px;
+                    height: 1.8em;
+                    width: 100%;
+                    max-width: 5em;
+                    border-radius: 3px;
+                    color: white;
+                    display: block;
+                    text-align: left;
+                    margin: 2px 1px;
+                    overflow: hidden;
+
+                    padding: 0.15em 0.2em;
+                    text-align: center;
+
+                    span {
+                        width: 100%;
+                        color: white;
+                        text-overflow: clip;
+                        white-space: nowrap;
+                        font-family: "NotoSansKR";
+                    }
+
+                    &-primary {
+                        background-color: var(--ion-color-primary);
+                    }
+
+                    &-danger {
+                        background-color: var(--ion-color-danger);
+                    }
+
+                    &-success {
+                        background-color: var(--ion-color-success);
+                    }
+
+                    &-secondary {
+                        background-color: var(--ion-color-secondary);
+                    }
+                }
+
+                &.last-month-day {
+                    opacity: 0.5;
+                }
+
+                &.next-month-day {
+                    @extend .last-month-day;
+                }
+            }
+        }
+    }
+}
