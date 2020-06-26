@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import * as $ from "jquery";
 
 @Component({
   selector: 'app-calendar',
@@ -7,18 +8,67 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class CalendarComponent implements OnInit {
+  // Calendar 변수
   dayOfWeek = ["일", "월", "화", "수", "목", "금", "토"]; // 캘린더 객체
   calendar = []; // 캘린더 객체
   baseDate; // 오늘 날짜
 
+  // Calendar 선택 변수
+  drag = false;
+  touch = false;
+  element; // Touch Move 시, Element Enter 및 Leave 확인 용  
+
   // Controller Functions
-  onPress($event) {
-    console.log("onPress", $event);
+  dragStart($event) {
+    this.drag = true;
+    var element = $($event.target);
+    this.toggleSelection(element);
   }
 
-  onPressUp($event) {
-    console.log("onPressUp", $event);
+  dragEnd($event) {
+    this.drag = false;
   }
+
+  dragOver($event) {
+    if (this.drag) {
+      var element = $($event.target);
+      this.toggleSelection(element);
+    }
+  }
+
+  touchStart($event) {
+    this.touch = true;
+    var element = $($event.target);
+    this.toggleSelection(element);
+  }
+
+  touchMove($event) {
+    var element = $(document.elementFromPoint($event.touches[0].clientX, $event.touches[0].clientY));
+    // 이미 진입한 것
+    if (this.element !== undefined && this.element[0] === element[0]) {     
+      return;
+    }
+    this.element = this.toggleSelection(element);    
+  }
+
+  touchEnd($event) {
+    this.touch = false;
+  }
+
+  toggleSelection(element) {
+    // Calendar 
+    if(!element.hasClass("calendar-table-body__col"))
+      return;
+
+
+    if (element.hasClass("selected"))
+      element.removeClass("selected")
+    else
+      element.addClass("selected")
+
+    return element;
+  }
+
 
   setClaendarData = (year, month) => {
     let currentCalendar = []
@@ -30,6 +80,7 @@ export class CalendarComponent implements OnInit {
     let startDayCount = 1;
     let lastDayCount = 1;
 
+    // [날짜, [-1 | 0 | 1]] -1: 지난 달, 0: 현재, 1: 다음 달
     // 1 ~ 5 주차 반복문
     for (let i = 0; i < 5; i++) {
       let temp = []

@@ -20,11 +20,12 @@
         </div>
       </div>
 
-      <div class="calendar-table-body" on-drag-left="onPress($event)" (pressup)="onPressUp($event)">
+      <div class="calendar-table-body" (touchmove)="touchMove($event)">
         <div class="calendar-table-body__row" *ngFor="let calendarRow of calendar">
           <div class="calendar-table-body__col" *ngFor="let calendarCol of calendarRow"
-            [ngClass]="{'last-month-day': calendarCol[1] == -1, 'next-month-day': calendarCol[1] == 1}"><span
-              class="day">{{calendarCol[0]}}</span></div>
+            [ngClass]="{'last-month-day': calendarCol[1] == -1, 'next-month-day': calendarCol[1] == 1}"
+            (mousedown)="dragStart($event)" (mouseover)="dragOver($event)" (mouseup)="dragEnd($event)"
+            id="day-{{calendarCol[0]}}"><span class="day">{{calendarCol[0]}}</span></div>
         </div>
       </div>
     </div>
